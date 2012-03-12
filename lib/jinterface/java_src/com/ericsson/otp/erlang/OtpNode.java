@@ -517,7 +517,13 @@ public class OtpNode extends OtpLocalNode {
 
     private void removeConnection(final OtpCookedConnection conn) {
 	if (conn != null && conn.name != null) {
-	    connections.remove(conn.name);
+	    synchronized (connections) {
+	        OtpCookedConnection connectionInCollection = connections
+	        .get(conn.name);
+	        if (connectionInCollection == conn) {
+	            connections.remove(conn.name);
+	            }
+	        }
 	}
     }
 
